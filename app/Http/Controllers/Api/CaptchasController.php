@@ -19,7 +19,7 @@ class CaptchasController extends Controller
         $result = [
             'captcha_key' => $key,
             'expires_at' => $expiresAt->toDateTimeString(),
-            'captcha_image_content' => $captcha->inline()
+            'captcha_image_content' => $captcha->getPhrase()
         ];
         return $this->response->array($result)->setStatusCode(201);
     }
