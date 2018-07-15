@@ -29,6 +29,12 @@ $api->version('v1', [
         // 用户注册
         $api->post('users', 'UsersController@store')->name('api.users.store');
 
-        $api->post('captchas','CaptchasController@store')->name('api.captchas.store');
+        // 验证码
+        $api->post('captchas', 'CaptchasController@store')->name('api.captchas.store');
+
+        // 第三方登录
+        $api->post('socials/{social_type}/authorizations', 'AuthorizationsController@socialStore')->name('api.socials.authorizations.store');
+
+
     });
 });
