@@ -13,10 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 $api = app('Dingo\Api\Routing\Router');
-
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api',
-    'middleware' => ['serializer:array','bindings']
+    'middleware' => ['serializer:array', 'bindings']
 ], function ($api) {
     $api->group([
         'middleware' => 'api.throttle',
@@ -52,14 +51,18 @@ $api->version('v1', [
         'limit' => config('api.rate_limits.access.limit'),
         'expires' => config('api.rate_limits.access.expires'),
     ], function ($api) {
+
         // 游客可访问的接口
-        $api->get('categories','CategoriesController@index')->name('api.categories.index');
+        $api->get('categories', 'CategoriesController@index')->name('api.categories.index');
         $api->get('topics', 'TopicsController@index')->name('api.topics.index');
         $api->get('users/{user}/topics', 'TopicsController@userIndex')->name('api.users.topics.index');
         $api->get('topics/{topic}', 'TopicsController@show')
             ->name('api.topics.show');
         //需要token验证的接口
         $api->group(['middleware' => 'api.auth'], function ($api) {
+            //TODO 记得删除 ⤵️
+            $api = app('Dingo\Api\Routing\Router');
+
             // 当前用户信息
             $api->get('user', 'UsersController@me')->name('api.user.show');
             // 更改用户信息
@@ -67,11 +70,13 @@ $api->version('v1', [
             // 图片资源
             $api->post('images', 'ImagesController@store')->name('api.images.store');
             // 发布话题
-            $api->post('topics','TopicsController@store')->name('api.topics.store');
+            $api->post('topics', 'TopicsController@store')->name('api.topics.store');
             // 修改话题
-            $api->patch('topics/{topic}','TopicsController@update')->name('api.topics.update');
+            $api->patch('topics/{topic}', 'TopicsController@update')->name('api.topics.update');
             // 删除话题
-            $api->delete('topics/{topic}','TopicsController@destroy')->name('api.topics.destroy');
+            $api->delete('topics/{topic}', 'TopicsController@destroy')->name('api.topics.destroy');
+            // 发布回复
+            $api->post('topics/{topic}/replies', 'RepliesController@store')->name('api.topics.replies.store');
 
         });
     });
