@@ -86,6 +86,8 @@ $api->version('v1', [
             $api->get('user/notifications', 'NotificationsController@index')->name('api.user.notifications.index');
             // 未读消息数量
             $api->get('user/notifications/stats', 'NotificationsController@stats')->name('api.user.notifications.stats');
+            // 标记已读
+            $api->patch('user/read/notifications', 'NotificationsController@read')->name('api.user.notifications.read');
         });
     });
 });
