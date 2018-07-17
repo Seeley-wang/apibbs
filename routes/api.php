@@ -88,6 +88,8 @@ $api->version('v1', [
             $api->get('user/notifications/stats', 'NotificationsController@stats')->name('api.user.notifications.stats');
             // 标记已读
             $api->patch('user/read/notifications', 'NotificationsController@read')->name('api.user.notifications.read');
+            // 获取所有权限
+            $api->get('user/permissions','PermissionsController@index')->name('api.user.permissions.index');
         });
     });
 });
