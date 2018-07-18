@@ -51,8 +51,6 @@ $api->version('v1', [
         'limit' => config('api.rate_limits.access.limit'),
         'expires' => config('api.rate_limits.access.expires'),
     ], function ($api) {
-        //TODO 记得删除 ⤵️
-        $api = app('Dingo\Api\Routing\Router');
         // 游客可访问的接口
         $api->get('categories', 'CategoriesController@index')->name('api.categories.index');
         $api->get('topics', 'TopicsController@index')->name('api.topics.index');
@@ -61,10 +59,11 @@ $api->version('v1', [
             ->name('api.topics.show');
         $api->get('topics/{topic}/replies', 'RepliesController@index')->name('api.topics.replies.index');
         $api->get('users/{user}/replies', 'RepliesController@userIndex')->name('api.users.replies.index');
+        $api->get('links','LinksController@index')->name('api.links.index');
+
         //需要token验证的接口
         $api->group(['middleware' => 'api.auth'], function ($api) {
-            //TODO 记得删除 ⤵️
-            $api = app('Dingo\Api\Routing\Router');
+
 
             // 当前用户信息
             $api->get('user', 'UsersController@me')->name('api.user.show');
