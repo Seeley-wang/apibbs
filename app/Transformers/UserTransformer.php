@@ -14,6 +14,8 @@ use League\Fractal\TransformerAbstract;
 
 class UserTransformer extends TransformerAbstract
 {
+    protected $availableIncludes = ['roles'];
+
     /**
      * @param User $user
      * @return array
@@ -32,5 +34,16 @@ class UserTransformer extends TransformerAbstract
             'created_at' => $user->created_at->toDateTimeString(),
             'updated_at' => $user->updated_at->toDateTimeString(),
         ];
+    }
+
+    /**
+     * @param User $user
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function includeRoles(User $user)
+    {
+        $roles = $user->roles;
+
+        return $this->collection($roles, new RolesTransformer());
     }
 }
